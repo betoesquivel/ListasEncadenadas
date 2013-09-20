@@ -1,8 +1,5 @@
-#include "stdafx.h"
 #include <iostream>
-#include <conio.h>
 
-using namespace System;
 using namespace std;
 
 template <class T>
@@ -27,16 +24,51 @@ class Lista
 		Lista() { inicio = NULL; }
 	//Cada vez que le inserte un dato a esta lista, se va a hacer un new.
 	//Aqui ocupo un destructor que libere todos los nodos de la lista.
-	~Lista() { /*pendiente*/ }
+	~Lista() 
+	{  
+		Nodo<T> *aux = inicio;
+		while(aux != NULL)
+		{
+			inicio = aux->sig;
+			delete aux;
+			aux = inicio;
+		}
+		
+	}
 	void AgregarAInicio(T dato);
+	void despliega();
 	//Ademas ocupo los metodos para implementar las operaciones de la lista.
 };
-void Lista::insertar()
+template <class T>
+void Lista<T>::AgregarAInicio(T dato)
 {
 //checar presentacion
+	Nodo<T> *aux = new Nodo<T> (dato); 	
+/*para ver si un apuntador no es null y no se acabo la memoria */
+	if (aux != NULL)
+	{
+		aux->sig = inicio;
+		inicio = aux;
+	}
+	
+}
+template <class T>
+void Lista<T>::despliega()
+{
+	Nodo<T> *aux = inicio;
+	while(aux != NULL)
+	{
+		cout<<aux->info<<endl;
+		aux = aux->sig;
+	}
 }
 
 int main ()
 {
-
+	Lista<int> l;
+	l.AgregarAInicio(36);	
+	l.AgregarAInicio(55);	
+	l.AgregarAInicio(98);	
+	l.AgregarAInicio(3);	
+	l.despliega();
 }
