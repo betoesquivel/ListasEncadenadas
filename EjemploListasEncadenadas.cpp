@@ -24,32 +24,48 @@ class Lista
 		Lista() { inicio = NULL; }
 	//Cada vez que le inserte un dato a esta lista, se va a hacer un new.
 	//Aqui ocupo un destructor que libere todos los nodos de la lista.
-	~Lista() 
-	{  
-		Nodo<T> *aux = inicio;
-		while(aux != NULL)
-		{
-			inicio = aux->sig;
-			delete aux;
-			aux = inicio;
+		~Lista() 
+		{  
+			Nodo<T> *aux = inicio;
+			while(aux != NULL)
+			{
+				inicio = aux->sig;
+				delete aux;
+				aux = inicio;
+			}
+			
 		}
 		
-	}
-	void AgregarAInicio(T dato);
-	void despliega();
+		void AgregarAInicio(T dato);
+		void AgregarAlFinal(T dato);
+		bool BorrarInicio(T &dato);
+		void despliega();
 	//Ademas ocupo los metodos para implementar las operaciones de la lista.
 };
 template <class T>
 void Lista<T>::AgregarAInicio(T dato)
 {
-//checar presentacion
 	Nodo<T> *aux = new Nodo<T> (dato); 	
-/*para ver si un apuntador no es null y no se acabo la memoria */
+	/*para ver si un apuntador no es null y no se acabo la memoria */
 	if (aux != NULL)
 	{
 		aux->sig = inicio;
 		inicio = aux;
 	}
+	
+}
+template <class T>
+void Lista<T>::AgregarAlFinal(T dato)
+{
+	Nodo<T> *aux = new Nodo<T> (); 	
+	Nodo<T> *temp = new Nodo<T> (dato);
+	aux = inicio;
+	while (aux->sig != NULL)
+	{
+		aux = aux->sig;
+	}
+	aux->sig = temp;
+	
 	
 }
 template <class T>
@@ -62,13 +78,33 @@ void Lista<T>::despliega()
 		aux = aux->sig;
 	}
 }
+template <class T>
+bool Lista<T>::BorrarInicio(T &dato)
+{  
+	Nodo<T> *aux = inicio;
+	if(aux == NULL)
+		return false;
+	inicio = aux->sig;
+	dato = aux->info;
+	delete aux;
+	return true;
+}
+
 
 int main ()
 {
+	int x; 
 	Lista<int> l;
 	l.AgregarAInicio(36);	
 	l.AgregarAInicio(55);	
 	l.AgregarAInicio(98);	
 	l.AgregarAInicio(3);	
+	for (int i = 1; i < 100; i++)
+		l.AgregarAInicio(i);
+	l.despliega();
+	l.BorrarInicio(x);
+	l.BorrarInicio(x);
+	l.despliega();
+	l.AgregarAlFinal(0);	
 	l.despliega();
 }
