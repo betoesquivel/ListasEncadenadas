@@ -39,6 +39,7 @@ class Lista
 		void AgregarAInicio(T dato);
 		void AgregarAlFinal(T dato);
 		bool BorrarInicio(T &dato);
+		bool BorrarFinal(T &dato);
 		void despliega();
 	//Ademas ocupo los metodos para implementar las operaciones de la lista.
 };
@@ -57,16 +58,19 @@ void Lista<T>::AgregarAInicio(T dato)
 template <class T>
 void Lista<T>::AgregarAlFinal(T dato)
 {
-	Nodo<T> *aux = new Nodo<T> (); 	
+	Nodo<T> *aux;
 	Nodo<T> *temp = new Nodo<T> (dato);
 	aux = inicio;
-	while (aux->sig != NULL)
+	if(aux != NULL) 
 	{
-		aux = aux->sig;
+		while (aux->sig != NULL)
+		{
+			aux = aux->sig;
+		}
+		aux->sig = temp;
 	}
-	aux->sig = temp;
-	
-	
+	else
+		inicio = temp;
 }
 template <class T>
 void Lista<T>::despliega()
@@ -89,6 +93,20 @@ bool Lista<T>::BorrarInicio(T &dato)
 	delete aux;
 	return true;
 }
+template <class T>
+bool Lista<T>::BorrarFinal(T &dato)
+{  
+	Nodo<T> *aux = inicio;
+	while( (aux->sig)->sig != NULL)
+	{
+		aux = aux->sig;
+	}
+	dato = (aux->sig)->info;
+	delete aux->sig;
+	aux->sig = NULL;
+	//Problema si la lista esta vacia.
+	//Buscar como validar esto.
+}
 
 
 int main ()
@@ -106,5 +124,7 @@ int main ()
 	l.BorrarInicio(x);
 	l.despliega();
 	l.AgregarAlFinal(0);	
+	l.despliega();
+	l.BorrarFinal(x);
 	l.despliega();
 }
